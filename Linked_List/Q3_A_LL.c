@@ -88,7 +88,7 @@ int main()
 */
 void moveOddItemsToBack(LinkedList *ll)
 {
-	ListNode *cur, *evenHead=NULL, *evenTail, *oddHead=NULL, *oddTail;
+	ListNode *cur, *evenHead=NULL, *evenTail=NULL, *oddHead=NULL, *oddTail=NULL;
 	// ll이 NULL 이면 종료
 	if(!ll){
 		return;
@@ -125,7 +125,9 @@ void moveOddItemsToBack(LinkedList *ll)
 		ll->head = oddHead;
 	}
 	//끝은 NULL로 지정
-	oddTail->next = NULL;
+	if(oddTail){
+		oddTail->next = NULL;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
