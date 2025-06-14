@@ -38,7 +38,7 @@ int removeNode(LinkedList *ll, int index);
 
 int main()
 {
-	int c, i;
+	int c=1, i;
 	LinkedList ll;
 	LinkedList resultFrontList, resultBackList;
 
@@ -99,10 +99,38 @@ int main()
 }
 
 //////////////////////////////////////////////////////////////////////////////////
-
+/*
+	- LinkedList의 size를 찾는다.
+	- size를 반으로 나눈다.
+	- front back size만큼 malloc한다.
+	- LinkedList를 순회하며 할당한다.
+*/
 void frontBackSplitLinkedList(LinkedList *ll, LinkedList *resultFrontList, LinkedList *resultBackList)
 {
-	/* add your code here */
+	int half = (ll->size >> 1) + (ll->size & 1);
+	//복사해서 담을 공간 확보
+	resultFrontList->size = half;
+	resultFrontList->head = (ListNode*)malloc(sizeof(ListNode)*resultFrontList->size);
+	resultBackList->size = ll->size - half;
+	resultBackList->head = (ListNode*)malloc(sizeof(ListNode)*resultBackList->size);
+	
+	ListNode *curOrg = ll->head, *curCp=resultFrontList->head;
+
+	//half갯수 복사, 리스트 연결
+	for(int i = 0; i< half; i++){
+		curCp[i].item = curOrg->item;
+		curOrg = curOrg->next;
+		curCp[i].next = i!=(half-1)?curCp + i + 1:NULL;
+	}
+	curCp = resultBackList->head;
+	//나머지 복사
+	int j;
+	for(int i=half;i<ll->size;i++){
+		j = i-half;
+		curCp[j].item = curOrg->item;
+		curOrg = curOrg->next;
+		curCp[j].next = i!=(ll->size-1)?curCp + j + 1:NULL;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
