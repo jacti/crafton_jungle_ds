@@ -83,10 +83,48 @@ int main()
 }
 
 //////////////////////////////////////////////////////////////////////////////////
-
+//마지막 구문 빼고 Q3과 동일
 void moveEvenItemsToBack(LinkedList *ll)
 {
-	/* add your code here */
+	ListNode *cur, *evenHead=NULL, *evenTail=NULL, *oddHead=NULL, *oddTail=NULL;
+	if(!ll){
+		return;
+	}
+	cur = ll->head;
+	while(cur){
+		if(cur->item&1){
+			if(!oddHead){
+				oddHead = cur;
+			}else{
+				oddTail->next = cur;
+			}
+			oddTail = cur;
+		} else{
+			if(!evenHead){
+				evenHead = cur;
+			}else{
+				evenTail->next = cur;
+			}
+			evenTail = cur;
+		}
+		cur = cur->next;
+	}
+	//head에 even먼저 연결
+	if(oddHead){
+		ll->head = oddHead;
+		oddTail->next = evenHead;
+	}else{
+		ll->head = evenHead;
+	}
+	//끝은 NULL로 지정
+	//STUDY : if 구문이 없을 때 evenTail에는 쓰레기값이 들어가있다
+	//그 값이 ll->head와 같은값이었음
+	//그래서 head가 계속 NULL로 초기화 되고 있었음
+	//포인터는 초기화와 NULL체크를 일상화 할 것 
+	if(evenTail){
+		evenTail->next = NULL;
+	}
+	return;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

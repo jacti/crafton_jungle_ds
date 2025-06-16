@@ -30,6 +30,9 @@ void frontBackSplitLinkedList(LinkedList* ll, LinkedList *resultFrontList, Linke
 void printList(LinkedList *ll);
 void removeAllItems(LinkedList *l);
 ListNode * findNode(LinkedList *ll, int index);
+// custom insertNode Function
+int appendNode(LinkedList *ll, ListNode* prev, int value);
+
 int insertNode(LinkedList *ll, int index, int value);
 int removeNode(LinkedList *ll, int index);
 
@@ -38,7 +41,7 @@ int removeNode(LinkedList *ll, int index);
 
 int main()
 {
-	int c, i;
+	int c=1, i;
 	LinkedList ll;
 	LinkedList resultFrontList, resultBackList;
 
@@ -99,10 +102,56 @@ int main()
 }
 
 //////////////////////////////////////////////////////////////////////////////////
-
+/*
+	- LinkedList의 size를 찾는다.
+	- size를 반으로 나눈다.
+	- front back size만큼 malloc한다.
+	- LinkedList를 순회하며 할당한다.
+*/
 void frontBackSplitLinkedList(LinkedList *ll, LinkedList *resultFrontList, LinkedList *resultBackList)
 {
-	/* add your code here */
+	int half = (ll->size >> 1) + (ll->size & 1);
+	ListNode * cur = ll->head;
+	appendNode(resultFrontList,NULL,cur->item);
+	ListNode * prev = resultFrontList->head;
+
+	cur = cur->next;
+	int i = 1;
+	for(; i<half; i++){
+		appendNode(resultFrontList,prev,cur->item);
+		prev = prev->next;
+		cur = cur->next;
+	}
+	if(ll->size - half){
+		appendNode(resultBackList,NULL,cur->item);
+		prev = resultBackList->head;
+		cur = cur->next;
+		i++;
+		for(;i<ll->size; i++){
+			appendNode(resultBackList,prev,cur->item);
+			prev = prev->next;
+			cur = cur->next;
+		}
+	}
+}
+
+int appendNode(LinkedList *ll, ListNode *prev, int value)
+{
+	if(ll == NULL || (ll->head == NULL && prev) || (ll->head && prev == NULL)){
+		return -1;
+	}
+
+	if(ll->head == NULL){
+		insertNode(ll,0,value);
+		return 0;
+	}
+
+	ListNode * newNode = (ListNode*) malloc(sizeof(ListNode));
+	newNode->item = value;
+	newNode->next = prev->next;
+	prev->next = newNode;
+	ll->size++;
+    return 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

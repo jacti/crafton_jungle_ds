@@ -13,10 +13,10 @@ Purpose: Implementing the required functions for Question 1 */
 #define BUFFER_SIZE 1024
 ///////////////////////////////////////////////////////////////////////////////////
 
-typedef struct _bstnode{
+typedef struct _Bstnode{
 	int item;
-	struct _bstnode *left;
-	struct _bstnode *right;
+	struct _Bstnode *left;
+	struct _Bstnode *right;
 } BSTNode;   // You should not change the definition of BSTNode
 
 typedef struct _QueueNode {
@@ -93,6 +93,8 @@ int main()
 
 void levelOrderTraversal(BSTNode* root)
 {
+	Queue queue;
+	queue.head = 
 
     /* add your code here */
 }
