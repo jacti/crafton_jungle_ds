@@ -30,6 +30,9 @@ void frontBackSplitLinkedList(LinkedList* ll, LinkedList *resultFrontList, Linke
 void printList(LinkedList *ll);
 void removeAllItems(LinkedList *l);
 ListNode * findNode(LinkedList *ll, int index);
+// custom insertNode Function
+int appendNode(LinkedList *ll, ListNode* prev, int value);
+
 int insertNode(LinkedList *ll, int index, int value);
 int removeNode(LinkedList *ll, int index);
 
@@ -108,29 +111,47 @@ int main()
 void frontBackSplitLinkedList(LinkedList *ll, LinkedList *resultFrontList, LinkedList *resultBackList)
 {
 	int half = (ll->size >> 1) + (ll->size & 1);
-	//복사해서 담을 공간 확보
-	resultFrontList->size = half;
-	resultFrontList->head = (ListNode*)malloc(sizeof(ListNode)*resultFrontList->size);
-	resultBackList->size = ll->size - half;
-	resultBackList->head = (ListNode*)malloc(sizeof(ListNode)*resultBackList->size);
-	
-	ListNode *curOrg = ll->head, *curCp=resultFrontList->head;
+	ListNode * cur = ll->head;
+	appendNode(resultFrontList,NULL,cur->item);
+	ListNode * prev = resultFrontList->head;
 
-	//half갯수 복사, 리스트 연결
-	for(int i = 0; i< half; i++){
-		curCp[i].item = curOrg->item;
-		curOrg = curOrg->next;
-		curCp[i].next = i!=(half-1)?curCp + i + 1:NULL;
+	cur = cur->next;
+	int i = 1;
+	for(; i<half; i++){
+		appendNode(resultFrontList,prev,cur->item);
+		prev = prev->next;
+		cur = cur->next;
 	}
-	curCp = resultBackList->head;
-	//나머지 복사
-	int j;
-	for(int i=half;i<ll->size;i++){
-		j = i-half;
-		curCp[j].item = curOrg->item;
-		curOrg = curOrg->next;
-		curCp[j].next = i!=(ll->size-1)?curCp + j + 1:NULL;
+	if(ll->size - half){
+		appendNode(resultBackList,NULL,cur->item);
+		prev = resultBackList->head;
+		cur = cur->next;
+		i++;
+		for(;i<ll->size; i++){
+			appendNode(resultBackList,prev,cur->item);
+			prev = prev->next;
+			cur = cur->next;
+		}
 	}
+}
+
+int appendNode(LinkedList *ll, ListNode *prev, int value)
+{
+	if(ll == NULL || (ll->head == NULL && prev) || (ll->head && prev == NULL)){
+		return -1;
+	}
+
+	if(ll->head == NULL){
+		insertNode(ll,0,value);
+		return 0;
+	}
+
+	ListNode * newNode = (ListNode*) malloc(sizeof(ListNode));
+	newNode->item = value;
+	newNode->next = prev->next;
+	prev->next = newNode;
+	ll->size++;
+    return 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

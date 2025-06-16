@@ -92,13 +92,4 @@ Temporary Items
 .vscode/
 
 # commit only code
-Linked_List/
-!Linked_List/*.c
-Binary_Search_Tree/
-!Binary_Search_Tree/*.c
-Binary_Tree/
-!Binary_Tree/*.c
-Stack_and_Queue/
-!Stack_and_Queue/*.c
-
-!test/**
+build/
