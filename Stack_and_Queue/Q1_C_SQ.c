@@ -127,6 +127,7 @@ void createQueueFromLinkedList(LinkedList *ll, Queue *q)
 	}
 	q->ll.head = malloc(sizeof(ListNode));
 	q->ll.head->item = ll->head->item;
+	q->ll.size +=1;
 	ListNode *curLL = ll->head->next, *curQ, *prev =q->ll.head;
 	while(curLL){
 		curQ = malloc(sizeof(ListNode));
@@ -134,6 +135,7 @@ void createQueueFromLinkedList(LinkedList *ll, Queue *q)
 		prev->next = curQ;
 		prev = curQ;
 		curLL = curLL->next;
+		q->ll.size +=1;
 	}
 }
 
