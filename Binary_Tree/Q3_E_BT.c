@@ -101,7 +101,12 @@ int main()
 int countOneChildNodes(BTNode *node)
 
 {
-    /* add your code here */
+    if(node == NULL) return 0;
+    int result = 0;
+    if((!node->left && node->right) || (node->left && !node->right)){
+        result = 1;
+    }
+    return result + countOneChildNodes(node->left) + countOneChildNodes(node->right);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
