@@ -8,6 +8,7 @@ Purpose: Implementing the required functions for Question 7 */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #define MIN_INT -1000
 
@@ -104,7 +105,26 @@ int main()
 ////////////////////////////////////////////////////////////
 int balanced(char *expression)
 {
-/* add your code here */
+	Stack s;
+	char open[3] = {'(','[','{'};
+	char close[3] = {')',']','}'};
+	while(*expression !='\0'){
+		bool isOpen = true;
+		for(int i = 0; i < 3 ; i ++){
+			if(*expression == close[i]){
+				isOpen = false;
+				char prev = pop(&s);
+				if(prev != open[i]){
+					return 1;
+				}
+				break;
+			}
+		}
+		if(isOpen){
+			push(&s,*expression);
+		}
+		expression++;
+	}
 }
 
 ////////////////////////////////////////////////////////////
