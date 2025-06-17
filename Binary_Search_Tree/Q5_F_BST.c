@@ -54,12 +54,13 @@ int main()
 
 	printf("1: Insert an integer into the binary search tree;\n");
 	printf("2: Print the post-order traversal of the binary search tree;\n");
+	printf("3: remove a node;\n");
 	printf("0: Quit;\n");
 
 
 	while (c != 0)
 	{
-		printf("Please input your choice(1/2/0): ");
+		printf("Please input your choice(1/2/3/0): ");
 		scanf("%d", &c);
 
 		switch (c)
@@ -70,6 +71,14 @@ int main()
 			insertBSTNode(&root, i);
 			break;
 		case 2:
+			printf("The resulting post-order traversal of the binary search tree is: ");
+			postOrderIterativeS2(root); // You need to code this function
+			printf("\n");
+			break;
+		case 3:
+			printf("Input an integer that you want to remove from Binary Search Tree: ");
+			scanf("%d", &i);
+			root = removeNodeFromTree(root,i);
 			printf("The resulting post-order traversal of the binary search tree is: ");
 			postOrderIterativeS2(root); // You need to code this function
 			printf("\n");
@@ -118,7 +127,37 @@ void postOrderIterativeS2(BSTNode *root)
    deletes the key and returns the new root. Make recursive function. */
 BSTNode* removeNodeFromTree(BSTNode *root, int value)
 {
-	/* add your code here */
+	if(!root) return NULL;
+	BSTNode* left = removeNodeFromTree(root->left, value);
+	BSTNode* right = removeNodeFromTree(root->right, value);
+	if(root->item == value){
+		free(root);
+		if(!left){
+			return right;
+		}
+		else if (!right){
+			return left;
+		}
+		else{
+			BSTNode* cur = right;
+			if(!cur->left){
+				cur->left = left;
+				return cur;
+			}
+			while(cur->left->left){
+				cur = cur->left;
+			}
+			BSTNode * newRoot = cur->left;
+			cur->left = NULL;
+			newRoot->left =left;
+			newRoot->right = right;
+			return newRoot;
+		}
+	}else{
+		root->left = left;
+		root->right = right;
+		return root;
+	}
 }
 ///////////////////////////////////////////////////////////////////////////////
 
