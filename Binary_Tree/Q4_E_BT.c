@@ -104,8 +104,7 @@ int sumOfOddNodes(BTNode *node)
 
 {
     if(!node) return 0;
-    int sum = node->item&1 ? node->item : 0;
-    return sum + sumOfOddNodes(node->left) + sumOfOddNodes(node->right);
+    return (node->item&1 ? node->item : 0) + sumOfOddNodes(node->left) + sumOfOddNodes(node->right);
 }
 
 //////////////////////////////////////////////////////////////////////////////////
