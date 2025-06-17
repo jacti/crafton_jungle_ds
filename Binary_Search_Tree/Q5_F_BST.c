@@ -91,7 +91,27 @@ int main()
 
 void postOrderIterativeS2(BSTNode *root)
 {
-	 /* add your code here */
+	Stack s1, print;
+	s1.top =NULL, print.top = NULL;
+	push(&s1,root);
+	int flag = 1;
+	BSTNode *cur;
+	while (!isEmpty(&s1) || !isEmpty(&print))
+	{
+		if(!isEmpty(&s1)){
+			cur = pop(&s1);
+			push(&print,cur);
+			if(cur->left){
+				push(&s1,cur->left);
+			}
+			if(cur->right){
+				push(&s1, cur->right);
+			}
+		} else {
+			cur = pop(&print);
+			printf("%d ",cur->item);
+		}
+	}
 }
 
 /* Given a binary search tree and a key, this function
